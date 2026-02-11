@@ -5,7 +5,7 @@ from models.pieces import Piece
 class InputHandler:
     def __init__(self):
         self.dragging_piece: Piece = None
-        self.dragging_position = None
+        self.dragging_origin = None
         self.mouse_pos = None
 
     def handle_mouse_down(self, pos, board):
@@ -15,7 +15,7 @@ class InputHandler:
         piece = board.grid[row][col]
         if piece:
             self.dragging_piece = piece
-            self.dragging_position = (row, col)
+            self.dragging_origin = (row, col)
             self.mouse_pos = pos
 
     def handle_mouse_up(self, pos, board):
@@ -26,14 +26,14 @@ class InputHandler:
         row = pos[1] // SQUARE_SIZE
 
         if 0 <= row < BOARD_SIZE and 0 <= col < BOARD_SIZE:
-            old_row, old_col = self.dragging_position
+            old_row, old_col = self.dragging_origin
             board.grid[old_row][old_col] = None
 
             board.grid[row][col] = self.dragging_piece
             self.dragging_piece.position = (row, col)
 
         self.dragging_piece = None
-        self.dragging_position = None
+        self.dragging_origin = None
         self.mouse_pos = None
 
     def handle_mouse_motion(self, pos):
@@ -44,4 +44,4 @@ class InputHandler:
         return self.dragging_piece is not None
 
     def get_dragging_info(self):
-        return self.dragging_piece, self.mouse_pos, self.dragging_position
+        return self.dragging_piece, self.mouse_pos, self.dragging_origin

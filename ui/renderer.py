@@ -45,6 +45,22 @@ class Renderer:
             rect = piece_image.get_rect(center=mouse_pos)
             self.screen.blit(piece_image, rect)
 
+    def draw_mouse_highlight(self, position):
+        if position:
+            col = position[0] // SQUARE_SIZE
+            row = position[1] // SQUARE_SIZE
+
+            rect = pygame.Rect(
+                col * SQUARE_SIZE,
+                row * SQUARE_SIZE,
+                SQUARE_SIZE,
+                SQUARE_SIZE
+            )
+
+            border_surface = pygame.Surface((SQUARE_SIZE, SQUARE_SIZE), pygame.SRCALPHA)
+            pygame.draw.rect(border_surface, (245, 248, 250, 180), border_surface.get_rect(), 4)
+            self.screen.blit(border_surface, rect)
+
     def draw_highlight(self, position):
         if position:
             row, col = position
@@ -57,10 +73,8 @@ class Renderer:
 
             # Transparent surface to use RGBA
             highlight_surface = pygame.Surface((SQUARE_SIZE, SQUARE_SIZE), pygame.SRCALPHA)
-            highlight_surface.fill((125, 172, 201, 128))
-
+            highlight_surface.fill((108, 163, 196, 130))
             self.screen.blit(highlight_surface, rect)
-            pygame.draw.rect(self.screen, (195, 213, 224), rect, 4)
 
     def get_piece_image(self, piece: Piece):
         key = f"{piece.color}-{piece.piece_type}"

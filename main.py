@@ -39,8 +39,9 @@ while running:
         renderer_instance.draw_highlight(drag_origin)
 
         if input_handler.is_dragging():
+            renderer_instance.draw_mouse_highlight(mouse_pos)
             renderer_instance.draw_dragging_piece(dragging_piece, mouse_pos)
 
 
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(500)
