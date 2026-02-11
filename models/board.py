@@ -2,7 +2,6 @@ from models.pieces import *
 from config import BOARD_SIZE
 
 class Board:
-
     def __init__(self):
         self.grid = [[None for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
         self.initialize_pieces()
