@@ -9,6 +9,7 @@
 import os.path
 
 import pygame
+import pygame.gfxdraw
 
 from config import LIGHT_SQUARE, DARK_SQUARE, SQUARE_SIZE, BOARD_SIZE, ASSETS_DIR
 from models.board import Board
@@ -123,6 +124,34 @@ class Renderer:
             highlight_surface.fill((108, 163, 196, 130))
             self.screen.blit(highlight_surface, rect)
 
+    def draw_legal_moves(self, valid_moves):
+        radius = SQUARE_SIZE // 6
+
+        for row, col in valid_moves:
+            circle_surface = pygame.Surface((SQUARE_SIZE, SQUARE_SIZE), pygame.SRCALPHA)
+
+            center = SQUARE_SIZE // 2
+
+            # filled circle
+            pygame.gfxdraw.filled_circle(
+                circle_surface,
+                center,
+                center,
+                radius,
+                (0, 0, 0, 100)
+            )
+
+            # anti-aliased edge
+            pygame.gfxdraw.aacircle(
+                circle_surface,
+                center,
+                center,
+                radius,
+                (0, 0, 0, 100)
+            )
+
+            self.screen.blit(circle_surface, (col * SQUARE_SIZE, row * SQUARE_SIZE))
+
     def get_piece_image(self, piece: Piece) -> pygame.Surface:
         """
         Loads and caches the image for a given chess piece.
@@ -146,4 +175,3 @@ class Renderer:
         self.piece_images[key] = image
 
         return image
-

@@ -28,6 +28,8 @@ class InputHandler:
         :param mouse_pos: Mouse position in screen coordinates (x, y).
         :param board: The Board instance containing the game state.
         """
+
+        # TODO: Add a select piece attribute to account for the case when we are not dragging the piece
         col = mouse_pos[0] // SQUARE_SIZE
         row = mouse_pos[1] // SQUARE_SIZE
 

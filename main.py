@@ -40,6 +40,8 @@ while running:
     if input_handler.is_dragging():
         renderer_instance.draw_mouse_highlight(mouse_pos)
         renderer_instance.draw_dragging_piece(dragging_piece, mouse_pos)
+        # TODO: Remove from here
+        renderer_instance.draw_legal_moves(dragging_piece.get_valid_moves(board.grid))
 
     pygame.display.flip()
     clock.tick(120)

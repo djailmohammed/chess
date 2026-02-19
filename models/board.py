@@ -43,3 +43,4 @@ class Board:
 
         self.grid[0][4] = King("black", (0, 4))
         self.grid[7][4] = King("white", (7, 4))
+
