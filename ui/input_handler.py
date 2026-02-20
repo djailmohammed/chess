@@ -17,6 +17,8 @@ class InputHandler:
         self.dragging_piece: Piece = None
         self.dragging_origin: tuple[int, int] = None
         self.mouse_pos: tuple[int, int] = None
+        self.selected_piece: Piece = None
+        self.selected_origin: tuple[int, int] = None
 
     def handle_mouse_down(self, mouse_pos: tuple[int, int], board: Board):
         """
@@ -29,14 +31,21 @@ class InputHandler:
         :param board: The Board instance containing the game state.
         """
 
-        # TODO: Add a select piece attribute to account for the case when we are not dragging the piece
         col = mouse_pos[0] // SQUARE_SIZE
         row = mouse_pos[1] // SQUARE_SIZE
+        clicked_pos = (row, col)
 
         piece = board.grid[row][col]
+
+        if piece and  self.selected_piece == piece and self.selected_origin == clicked_pos:
+            self.selected_piece = None
+            self.selected_origin = None
+
         if piece:
             self.dragging_piece = piece
-            self.dragging_origin = (row, col)
+            self.dragging_origin = clicked_pos
+            self.selected_piece = piece
+            self.selected_origin = clicked_pos
             self.mouse_pos = mouse_pos
 
     def handle_mouse_up(self, mouse_pos: tuple[int, int], board: Board):
@@ -84,6 +93,14 @@ class InputHandler:
         """
         return self.dragging_piece is not None
 
+    def is_selected(self) -> bool:
+        """
+        Returns whether a piece is currently being selected.
+
+        :return: True a piece is selected, False otherwise.
+        """
+        return self.selected_piece is not None
+
     def get_dragging_info(self) -> tuple[
         Piece | None,
         tuple[int, int] | None,
@@ -98,3 +115,7 @@ class InputHandler:
                  - the original board position (row, col).
         """
         return self.dragging_piece, self.mouse_pos, self.dragging_origin
+
+    def get_selected_info(self):
+        """Returns (piece, position) of selected piece."""
+        return self.selected_piece, self.selected_origin

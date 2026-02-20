@@ -34,14 +34,20 @@ while running:
 
     renderer_instance.draw_board()
     dragging_piece, mouse_pos, drag_origin = input_handler.get_dragging_info()
+    selected_piece, selected_origin = input_handler.get_selected_info()
+
+    if input_handler.is_selected() and not input_handler.is_dragging():
+        renderer_instance.draw_highlight(selected_origin)
+        renderer_instance.draw_legal_moves(selected_piece.get_valid_moves(board.grid))
+
     renderer_instance.draw_pieces(board, dragging_piece)
-    renderer_instance.draw_highlight(drag_origin)
 
     if input_handler.is_dragging():
         renderer_instance.draw_mouse_highlight(mouse_pos)
+        renderer_instance.draw_highlight(selected_origin)
+        renderer_instance.draw_legal_moves(selected_piece.get_valid_moves(board.grid))
         renderer_instance.draw_dragging_piece(dragging_piece, mouse_pos)
-        # TODO: Remove from here
-        renderer_instance.draw_legal_moves(dragging_piece.get_valid_moves(board.grid))
+
 
     pygame.display.flip()
     clock.tick(120)
