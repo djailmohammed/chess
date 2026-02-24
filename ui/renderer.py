@@ -125,15 +125,15 @@ class Renderer:
             self.screen.blit(highlight_surface, rect)
 
     def draw_legal_moves(self, valid_moves):
-        radius = SQUARE_SIZE // 6
+        radius = SQUARE_SIZE // 7
 
         for row, col in valid_moves:
             circle_surface = pygame.Surface((SQUARE_SIZE, SQUARE_SIZE), pygame.SRCALPHA)
 
             center = SQUARE_SIZE // 2
 
-            # filled circle
-            pygame.gfxdraw.filled_circle(
+            # anti-aliased edge
+            pygame.gfxdraw.aacircle(
                 circle_surface,
                 center,
                 center,
@@ -141,8 +141,8 @@ class Renderer:
                 (0, 0, 0, 100)
             )
 
-            # anti-aliased edge
-            pygame.gfxdraw.aacircle(
+            # filled circle
+            pygame.gfxdraw.filled_circle(
                 circle_surface,
                 center,
                 center,
